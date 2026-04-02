@@ -3,6 +3,7 @@ Console.WriteLine("La carrera");
 Console.WriteLine();
 
 List<Participante> participantes = new List<Participante>();
+List<string> categorias = new();
 
 void CargarParticipantes()
 {
@@ -25,15 +26,31 @@ void CargarParticipantes()
         p.Tiempo = float.Parse(Console.ReadLine());
         Console.WriteLine("Ingrese la Categoria de participante:");
         p.Categoria = Console.ReadLine();
+        if(categorias.Contains(p.Categoria) == false)
+        {
+            categorias.Add(p.Categoria);
+        }
         participantes.Add(p);
         
     } while(true);
 
 
     Console.WriteLine($"La lista tiene {participantes.Count} participantes");
+    Console.WriteLine($"La lista tiene {categorias.Count} categorias");
 
 }
 
+bool containsCasero(string categoria)
+{
+    foreach (var c in categorias)
+    {   
+        if (c== categoria)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 CargarParticipantes();
 
@@ -87,3 +104,21 @@ MejorTiempoV2();
 
 
 
+
+void MejorXCategoria()
+{
+    foreach (var categoria in categorias)
+    {
+        Participante mejor = null;
+        foreach (var p in participantes)
+        {
+            if ((mejor == null || p.Tiempo < mejor.Tiempo) && p.Categoria == categoria)
+            {
+                mejor = p;
+            }
+        }
+        Console.WriteLine($"El mejor de la categoria {categoria} es {mejor.Nombre} {mejor.Apellido} {mejor.Tiempo}");
+    }
+}
+
+MejorXCategoria();
